@@ -92,8 +92,8 @@ const loginUserFail = (error, dispatch) => {
 
 export const setHeaders = (response) => {
   console.log('setHeaders ', response);
-  let data = JSON.parse(response);
 
+  let data = (typeof response == 'string') ? JSON.parse(response) : response;
 
   // Headers HTTP para páginas autenticadas
   axios.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`;

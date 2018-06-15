@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, AsyncStorage, ListView } from 'react-native';
+import { View, AsyncStorage, ListView } from 'react-native';
 import { connect } from 'react-redux';
-import { Card, CardSection, Button } from '../shared';
+// import { Card, CardSection, Button } from '../shared';
+import { Header, Card, Button, Text } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
+import SideMenu from 'react-native-side-menu';
 import { getCategorias, getOrcamento } from '../../actions';
 import ListItem from './ListItem';
-import { Actions } from 'react-native-router-flux';
+import Menu from '../Menu/Menu';
 
 class Categorias extends Component {
 
@@ -12,7 +15,8 @@ class Categorias extends Component {
     super();
 
     this.state = {
-      dataSource: []
+      dataSource: [],
+      isOpen: false
     }
   }
 
@@ -57,30 +61,55 @@ class Categorias extends Component {
     return <ListItem categoria={categoria} />;
   }
 
+  updateMenuState(isOpen) {
+    console.log('update ', isOpen);
+    this.setState({ isOpen });
+  }
+
+  onMenuItemSelected = item =>
+    this.setState({
+      isOpen: false,
+      selectedItem: item,
+    });
+
   logout() {
     AsyncStorage.clear();
     Actions.auth();
   }
 
   render() {
+    const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
+
     return (
-      <View>
-        <Text>Categoriass</Text>
+      <SideMenu
+        menu={menu}
+        isOpen={this.state.isOpen}
+        onChange={isOpen => this.updateMenuState(isOpen)}
+      >
+        <View style={{ backgroundColor: 'white', flex: 1 }} >
+          <Header
+            leftComponent={{ icon: 'menu', color: '#fff', onPress:  () => this.updateMenuState(!this.state.isOpen)  }}
+            centerComponent={{ text: 'Categorias', style: { color: '#fff' } }}
+            rightComponent={{ icon: 'home', color: '#fff' }}
+          />
 
-        <ListView
-          enableEmptySections
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow}
-        />
+          <Text h3>Categoriass</Text>
 
-        <Card>
-          <CardSection>
-            <Button onPress={this.logout.bind(this)}>
-              Logout
-            </Button>
-          </CardSection>
-        </Card>
-      </View>
+          <ListView
+            enableEmptySections
+            dataSource={this.state.dataSource}
+            renderRow={this.renderRow}
+          />
+
+          <Card>
+            <Button
+              onPress={this.logout.bind(this)}
+              title="Logout"
+              icon={{ name: 'exit-to-app' }}
+            />
+          </Card>
+        </View>
+      </SideMenu>
     );
   };
 }
