@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { toggleMenu } from '../../actions';
 import {
   Dimensions,
   StyleSheet,
@@ -41,30 +43,61 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Menu({ onItemSelected }) {
-  return (
-    <ScrollView scrollsToTop={false} style={styles.menu}>
-      <View style={styles.avatarContainer}>
-        <Image
-          style={styles.avatar}
-          source={{ uri }}
-        />
-        <Text style={styles.name}>Your name</Text>
-      </View>
+class Menu extends Component {
 
-      <Text
-        onPress={() => onItemSelected('About')}
-        style={styles.item}
-      >
-        About
-      </Text>
+  constructor() {
+    super();
 
-      <Text
-        onPress={() => onItemSelected('Contacts')}
-        style={styles.item}
-      >
-        Contacts
-      </Text>
-    </ScrollView>
-  );
+    this.state = {
+      isOpen: false,
+      selectedItem: ''
+    }
+  }
+
+  onMenuItemSelected = item =>
+    this.props.toggleMenu({
+      isOpen: false,
+      selectedItem: item
+    });
+
+  render() {
+    return (
+      <ScrollView scrollsToTop={false} style={styles.menu}>
+        <View style={styles.avatarContainer}>
+          <Image
+            style={styles.avatar}
+            source={{ uri }}
+          />
+          <Text style={styles.name}>Your name</Text>
+        </View>
+
+        <Text
+          onPress={() => this.onMenuItemSelected('About')}
+          style={styles.item}
+        >
+          About
+        </Text>
+
+        <Text
+          onPress={() => this.onMenuItemSelected('Contacts')}
+          style={styles.item}
+        >
+          Contacts
+        </Text>
+      </ScrollView>
+    );
+  }
 }
+
+/* export default function Menu({ isOpen, onItemSelected }) {
+} */
+
+const mapStateToProps = state => {
+  console.log('mapStateToProps Categorias ', state);
+  const { menu } = state;
+
+  return { menu };
+}
+
+// export default Categorias;
+export default connect(mapStateToProps, { toggleMenu })(Menu);

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Header, Card, Button, Text } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import SideMenu from 'react-native-side-menu';
-import { getCategorias, getOrcamento } from '../../actions';
+import { getCategorias, getOrcamento, toggleMenu } from '../../actions';
 import ListItem from './ListItem';
 import Menu from '../Menu/Menu';
 
@@ -15,8 +15,7 @@ class Categorias extends Component {
     super();
 
     this.state = {
-      dataSource: [],
-      isOpen: false
+      dataSource: []
     }
   }
 
@@ -60,35 +59,24 @@ class Categorias extends Component {
   renderRow(categoria) {
     return <ListItem categoria={categoria} />;
   }
-
-  updateMenuState(isOpen) {
-    console.log('update ', isOpen);
-    this.setState({ isOpen });
-  }
-
-  onMenuItemSelected = item =>
-    this.setState({
-      isOpen: false,
-      selectedItem: item,
-    });
-
   logout() {
     AsyncStorage.clear();
     Actions.auth();
   }
 
   render() {
-    const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
-
     return (
       <SideMenu
-        menu={menu}
-        isOpen={this.state.isOpen}
-        onChange={isOpen => this.updateMenuState(isOpen)}
+        menu={<Menu />}
+        isOpen={this.props.menu.isOpen}
       >
         <View style={{ backgroundColor: 'white', flex: 1 }} >
           <Header
-            leftComponent={{ icon: 'menu', color: '#fff', onPress:  () => this.updateMenuState(!this.state.isOpen)  }}
+            leftComponent={{
+              icon: 'menu',
+              color: '#fff',
+              onPress: () => this.props.toggleMenu({ isOpen: !this.props.menu.isOpen })
+            }}
             centerComponent={{ text: 'Categorias', style: { color: '#fff' } }}
             rightComponent={{ icon: 'home', color: '#fff' }}
           />
@@ -116,10 +104,10 @@ class Categorias extends Component {
 
 const mapStateToProps = state => {
   console.log('mapStateToProps Categorias ', state);
-  const { categorias, orcamento } = state;
+  const { categorias, orcamento, menu } = state;
 
-  return { categorias, orcamento };
+  return { categorias, orcamento, menu };
 }
 
 // export default Categorias;
-export default connect(mapStateToProps, { getCategorias, getOrcamento })(Categorias);
+export default connect(mapStateToProps, { getCategorias, getOrcamento, toggleMenu })(Categorias);

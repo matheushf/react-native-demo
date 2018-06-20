@@ -9,12 +9,8 @@ const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 
 class App extends Component {
 
-  componentWillMount() {
-    state = { loggedIn: null };
-  }
-
   render() {
-    // const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+    // const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));    
 
     return (
       <Provider store={store}>
