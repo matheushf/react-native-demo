@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { AsyncStorage } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { toggleMenu } from '../../actions';
 import {
   Dimensions,
@@ -60,6 +62,12 @@ class Menu extends Component {
       selectedItem: item
     });
 
+  logout() {
+    this.onMenuItemSelected('logout');
+    AsyncStorage.clear();
+    Actions.auth();
+  }
+
   render() {
     return (
       <ScrollView scrollsToTop={false} style={styles.menu}>
@@ -83,6 +91,13 @@ class Menu extends Component {
           style={styles.item}
         >
           Contacts
+        </Text>
+
+        <Text
+          onPress={() => this.logout()}
+          style={styles.item}
+        >
+          Logout
         </Text>
       </ScrollView>
     );

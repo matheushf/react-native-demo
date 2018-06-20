@@ -3,7 +3,6 @@ import { View, AsyncStorage, ListView } from 'react-native';
 import { connect } from 'react-redux';
 // import { Card, CardSection, Button } from '../shared';
 import { Header, Card, Button, Text } from 'react-native-elements';
-import { Actions } from 'react-native-router-flux';
 import SideMenu from 'react-native-side-menu';
 import { getCategorias, getOrcamento, toggleMenu } from '../../actions';
 import ListItem from './ListItem';
@@ -58,11 +57,7 @@ class Categorias extends Component {
 
   renderRow(categoria) {
     return <ListItem categoria={categoria} />;
-  }
-  logout() {
-    AsyncStorage.clear();
-    Actions.auth();
-  }
+  }  
 
   render() {
     return (
@@ -89,13 +84,13 @@ class Categorias extends Component {
             renderRow={this.renderRow}
           />
 
-          <Card>
+          {/* <Card>
             <Button
               onPress={this.logout.bind(this)}
               title="Logout"
               icon={{ name: 'exit-to-app' }}
             />
-          </Card>
+          </Card> */}
         </View>
       </SideMenu>
     );
