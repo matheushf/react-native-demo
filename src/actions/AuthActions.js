@@ -82,7 +82,7 @@ const loginUserSuccess = (response, dispatch) => {
     payload: response
   });
 
-  Actions.main();
+  Actions.main();  
 };
 
 const loginUserFail = (error, dispatch) => {

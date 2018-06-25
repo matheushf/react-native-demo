@@ -3,6 +3,7 @@ import { Scene, Router, Actions } from 'react-native-router-flux';
 import Splash from "./components/Splash";
 import Login from "./components/Auth/Login";
 import Categorias from './components/Categorias/Categorias';
+import Itens from './components/Categorias/Itens/Itens';
 
 const RouterComponent = () => {
   return (
@@ -18,6 +19,7 @@ const RouterComponent = () => {
 
         <Scene key="main">
           <Scene key="categorias" component={Categorias} title="Categorias" hideNavBar />
+          <Scene key="itensCategoria" component={Itens} title="Historico" hideNavBar />
         </Scene>
       </Scene>
     </Router>

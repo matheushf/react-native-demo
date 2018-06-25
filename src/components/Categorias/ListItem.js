@@ -13,7 +13,7 @@ class ListItem extends Component {
     const { nome } = this.props.categoria;
 
     return (
-      <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
+      <TouchableWithoutFeedback onPress={this.props.goTo}>
         <View>
           <CardSection>
             <Text style={styles.titleStyle}>
