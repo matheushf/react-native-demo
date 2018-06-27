@@ -13,3 +13,6 @@ export const GET_ORCAMENTO_FAIL = 'get_orcamento_fail';
 export const GET_CATEGORIAS = 'get_categorias';
 export const GET_CATEGORIAS_SUCCESS = 'get_categorias_success';
 export const GET_CATEGORIAS_FAIL = 'get_categorias_fail';
+
+export const GET_GASTOS =  'get_gastos';
+export const GET_GASTOS_ITENS =  'get_gastos_itens';

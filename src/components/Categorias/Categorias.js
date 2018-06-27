@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { View, AsyncStorage, ListView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-// import { Card, CardSection, Button } from '../shared';
-import { Header, Card, Button, Text, List, ListItem } from 'react-native-elements';
+import styled from "styled-components";
+import { Header, Card, Button, Text, List, ListItem, Icon, Divider } from 'react-native-elements';
 import Modal from 'react-native-modalbox';
-import SideMenu from 'react-native-side-menu';
-import Menu from '../Menu/Menu';
-import { getCategorias, getOrcamento, toggleMenu } from '../../actions';
-// import ListItem from './ListItem';
-import { Content } from '../shared/Content';
+import FAB from 'react-native-fab';
+import { Spinner, ButtonGroupModal } from '../shared';
 import ContentWrapper from '../shared/ContentWrapper';
+import ModalWrapper from '../shared/Modal';
+import { getCategorias, getOrcamento, toggleMenu } from '../../actions';
 
 class Categorias extends Component {
 
@@ -18,7 +17,6 @@ class Categorias extends Component {
     super();
 
     this.state = {
-      dataSource: [],
       isOpen: false,
       isDisabled: false,
       swipeToClose: true,
@@ -29,7 +27,6 @@ class Categorias extends Component {
   componentWillMount() {
     console.log('componentWillMount');
     this.obterOrcamento();
-    this.createDataSource(this.props);
   }
 
   obterOrcamento() {
@@ -37,54 +34,15 @@ class Categorias extends Component {
     console.log('obterOrcamento ', this.props);
   }
 
-  obterCategorias() {
-    this.props.getCategorias();
-    // this.createDataSource(this.props);
-  }
-
   componentWillReceiveProps(nextProps) {
     console.log('componentWillReceiveProps ', nextProps);
-
-    /* if (nextProps.categorias === {}) {
-      this.obterCategorias();
-    } */
-
-    this.createDataSource(nextProps);
-  }
-
-  createDataSource({ orcamento }) {
-    console.log('createDataSource ', orcamento);
-    let categorias = orcamento && orcamento.categorias ? orcamento.categorias : {};
-
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
-
-    this.setState({ dataSource: ds.cloneWithRows(categorias) })
-  }
-
-  renderRow(rowData, sectionID) {
-    console.log('renderRow ', sectionID);
-
-    return (
-      <ListItem
-        key={sectionID}
-        title={rowData.nome}
-        subtitle={'subtitle'}
-        onPress={() => Actions.itensCategoria({ categoria: rowData })}
-      />
-    )
-  }
-
-  renderRow2(categoria) {
-    return <ListItem categoria={categoria} goTo={() => Actions.itensCategoria()} />;
   }
 
   renderHeader() {
     return {
       leftComponent: 'menu',
       centerComponent: { text: 'Categorias', style: { color: '#fff' } },
-      rightComponent: { icon: 'add', color: '#fff', onPress: () => { } }
+      // rightComponent: { icon: 'add', color: '#fff', onPress: () => this.refs.modal3.open() }
     };
   }
 
@@ -103,24 +61,42 @@ class Categorias extends Component {
   render() {
     return (
       <ContentWrapper header={this.renderHeader()}>
-        <Text h3></Text>
+        <FAB
+          buttonColor="red"
+          iconTextColor="#FFFFFF"
+          onClickAction={() => { this.refs.modal3.open() }}
+          // onPress={() => this.refs.modal3.open()}
+          visible={true}
+        />
 
-        <Button onPress={() => this.refs.modal3.open()} style={styles.btn} title='Basic modal' />
+        <Modal
+          style={[styles.modal, styles.modal3]}
+          position={"center"}
+          ref={'modal3'}
+          isOpen={this.state.isOpen}
+        >
+          <Text h3>Nova Categoria</Text>
 
-        <Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}>
-          <Text style={styles.text}>Modal centered</Text>
-          <Button 
-          onPress={() => this.setState({ isDisabled: !this.state.isDisabled })} 
-          style={styles.btn} 
-          title={ 'Disable ' + this.state.isDisabled ? "true" : "false"} />
+          <Divider style={{ backgroundColor: 'blue' }} />
+
+          <ButtonGroupModal
+            left={'Cancelar'}
+            right={'Salvar'}
+            onCancel={() => { this.refs.modal3.close() }}
+            onConfirm={() => { console.log('oi') }}
+          />
         </Modal>
 
         <List>
-          <ListView
-            enableEmptySections
-            renderRow={this.renderRow}
-            dataSource={this.state.dataSource}
-          />
+          {
+            this.props.orcamento.categorias.map((categoria, i) => (
+              <ListItem
+                key={i}
+                title={categoria.nome}
+                onPress={() => Actions.itensCategoria({ categoria: categoria })}
+              />
+            ))
+          }
         </List>
       </ContentWrapper>
     )
@@ -151,13 +127,6 @@ const styles = StyleSheet.create({
 
   modal4: {
     height: 300
-  },
-
-  btn: {
-    margin: 10,
-    backgroundColor: "#3B5998",
-    color: "white",
-    padding: 10
   },
 
   btnModal: {
