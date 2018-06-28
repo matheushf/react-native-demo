@@ -3,7 +3,8 @@ import { View, AsyncStorage, ListView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import styled from "styled-components";
-import { Header, Card, Button, Text, List, ListItem, Icon, Divider } from 'react-native-elements';
+import { Header, Card, Button, Text, List, ListItem, Divider } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Modal from 'react-native-modalbox';
 import FAB from 'react-native-fab';
 import { Spinner, ButtonGroupModal } from '../shared';
@@ -64,6 +65,7 @@ class Categorias extends Component {
         <FAB
           buttonColor="red"
           iconTextColor="#FFFFFF"
+          iconTextComponent={<Icon name="add" />}
           onClickAction={() => { this.refs.modal3.open() }}
           // onPress={() => this.refs.modal3.open()}
           visible={true}
