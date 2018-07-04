@@ -3,7 +3,7 @@ import { View, AsyncStorage, ListView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import styled from "styled-components";
-import { Header, Card, Button, Text, List, ListItem, Divider } from 'react-native-elements';
+import { Header, Card, Button, Text, List, ListItem, Divider, CheckBox } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Modal from 'react-native-modalbox';
 import FAB from 'react-native-fab';
@@ -11,6 +11,8 @@ import { Spinner, ButtonGroupModal } from '../shared';
 import ContentWrapper from '../shared/ContentWrapper';
 import ModalWrapper from '../shared/Modal';
 import { getCategorias, getOrcamento, toggleMenu } from '../../actions';
+import { TitleModal, StyledModal, DividerModal } from '../shared/Styled';
+import { GlobalStyles } from '../../styles/styles';
 
 class Categorias extends Component {
 
@@ -72,21 +74,34 @@ class Categorias extends Component {
         />
 
         <Modal
-          style={[styles.modal, styles.modal3]}
+          style={[GlobalStyles.modalCenter, styles.modal3]}
           position={"center"}
           ref={'modal3'}
           isOpen={this.state.isOpen}
         >
-          <Text h3>Nova Categoria</Text>
+          <StyledModal>
+            <TitleModal h4>Criar nova Categoria?</TitleModal>
+            <Text>Escolha o tipo de categoria que deseja adicionar</Text>
 
-          <Divider style={{ backgroundColor: 'blue' }} />
+            <DividerModal />
 
-          <ButtonGroupModal
-            left={'Cancelar'}
-            right={'Salvar'}
-            onCancel={() => { this.refs.modal3.close() }}
-            onConfirm={() => { console.log('oi') }}
-          />
+            <CheckBox
+              left
+              title='Click Here'
+              checkedIcon='dot-circle-o'
+              uncheckedIcon='circle-o'
+              checked={this.state.checked}
+            />
+
+            <DividerModal />
+
+            <ButtonGroupModal
+              left={'Cancelar'}
+              right={'Salvar'}
+              onCancel={() => { this.refs.modal3.close() }}
+              onConfirm={() => { console.log('oi') }}
+            />
+          </StyledModal>
         </Modal>
 
         <List>
@@ -106,29 +121,9 @@ class Categorias extends Component {
 }
 
 const styles = StyleSheet.create({
-
-  wrapper: {
-    paddingTop: 50,
-    flex: 1
-  },
-
-  modal: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
-  modal2: {
-    height: 230,
-    backgroundColor: "#3B5998"
-  },
-
   modal3: {
     height: 300,
     width: 300
-  },
-
-  modal4: {
-    height: 300
   },
 
   btnModal: {
@@ -139,12 +134,6 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "transparent"
   },
-
-  text: {
-    color: "black",
-    fontSize: 22
-  }
-
 });
 
 const mapStateToProps = state => {

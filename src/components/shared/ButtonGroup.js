@@ -21,7 +21,9 @@ const ButtonGroupModal = (props) => {
 const ButtonsGroup = styled.View`
     flex: 1;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin: 10px 0;
 `;
 
 export { ButtonGroupModal };
