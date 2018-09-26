@@ -9,10 +9,12 @@ const ButtonGroupModal = (props) => {
       <Button
         onPress={props.onCancel}
         title={props.left}
+        type={props.type}
       />
       <Button
         onPress={props.onConfirm}
         title={props.right}
+        type={props.type}
       />
     </ButtonsGroup>
   )

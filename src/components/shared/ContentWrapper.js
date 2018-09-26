@@ -6,6 +6,7 @@ import { Header } from 'react-native-elements';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import { toggleMenu } from '../../actions';
 import Menu from '../Menu/Menu';
+import { colors } from '../../styles/variables';
 
 class ContentWrapper extends Component {
   constructor() {
@@ -42,6 +43,7 @@ class ContentWrapper extends Component {
       >
         <View style={{ backgroundColor: 'white', flex: 1 }} >
           <Header
+            backgroundColor={colors.primary}
             leftComponent={this.leftHeader()}
             centerComponent={this.props.header.centerComponent}
             rightComponent={this.props.header.rightComponent}

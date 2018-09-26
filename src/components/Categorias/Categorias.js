@@ -13,17 +13,24 @@ import ModalWrapper from '../shared/Modal';
 import { getCategorias, getOrcamento, toggleMenu } from '../../actions';
 import { TitleModal, StyledModal, DividerModal } from '../shared/Styled';
 import { GlobalStyles } from '../../styles/styles';
+import { colors } from '../../styles/variables';
 
 class Categorias extends Component {
 
   constructor() {
     super();
 
+    const buttonsModal = {
+      left: [{ text: 'Cancelar', type: 'success' }],
+      right: [{ text: 'Salvar', type: 'cancel' }]
+    };
+
     this.state = {
       isOpen: false,
       isDisabled: false,
       swipeToClose: true,
-      sliderValue: 0.3
+      sliderValue: 0.3,
+      buttonsModal: buttonsModal
     };
   }
 
@@ -65,7 +72,7 @@ class Categorias extends Component {
     return (
       <ContentWrapper header={this.renderHeader()}>
         <FAB
-          buttonColor="red"
+          buttonColor={colors.primary}
           iconTextColor="#FFFFFF"
           iconTextComponent={<Icon name="add" />}
           onClickAction={() => { this.refs.modal3.open() }}
@@ -96,8 +103,8 @@ class Categorias extends Component {
             <DividerModal />
 
             <ButtonGroupModal
-              left={'Cancelar'}
-              right={'Salvar'}
+              left={...this.state.buttonsModal.left}
+              right={...this.state.buttonsModal.right}
               onCancel={() => { this.refs.modal3.close() }}
               onConfirm={() => { console.log('oi') }}
             />

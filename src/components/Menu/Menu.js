@@ -11,6 +11,7 @@ import {
   Image,
   Text,
 } from 'react-native';
+import { colors } from '../../styles/variables';
 
 const window = Dimensions.get('window');
 const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png';
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: window.width,
     height: window.height,
-    backgroundColor: 'red',
+    backgroundColor: colors.secondary,
     padding: 20,
   },
   avatarContainer: {
